@@ -1,0 +1,149 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "luma-avlu",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.878, 38.359]
+      },
+      "properties": {
+        "project_id": "luma-avlu",
+        "name": "Luma Avlu",
+        "district": "Güzelbahçe",
+        "location_mode": "regional",
+        "is_demo": true,
+        "available_units": 34,
+        "total_units": 48,
+        "note": "Temsili bölge noktasıdır. Parsel veya gerçek satış konumu değildir."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "zeytin-evleri",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.772, 38.324]
+      },
+      "properties": {
+        "project_id": "zeytin-evleri",
+        "name": "Zeytin Evleri",
+        "district": "Urla",
+        "location_mode": "regional",
+        "is_demo": true,
+        "available_units": 7,
+        "total_units": 12,
+        "note": "Temsili bölge noktasıdır. Parsel veya gerçek satış konumu değildir."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kiyi-rezidans",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [27.011, 38.396]
+      },
+      "properties": {
+        "project_id": "kiyi-rezidans",
+        "name": "Kıyı Rezidans",
+        "district": "Narlıdere",
+        "location_mode": "regional",
+        "is_demo": true,
+        "available_units": 29,
+        "total_units": 64,
+        "note": "Temsili bölge noktasıdır. Parsel veya gerçek satış konumu değildir."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "teras-35",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [27.051, 38.373]
+      },
+      "properties": {
+        "project_id": "teras-35",
+        "name": "Teras 35",
+        "district": "Balçova",
+        "location_mode": "regional",
+        "is_demo": true,
+        "available_units": 60,
+        "total_units": 80,
+        "note": "Temsili bölge noktasıdır. Parsel veya gerçek satış konumu değildir."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "mavi-bahce",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.836, 38.348]
+      },
+      "properties": {
+        "project_id": "mavi-bahce",
+        "name": "Mavi Bahçe",
+        "district": "Güzelbahçe",
+        "location_mode": "regional",
+        "is_demo": true,
+        "available_units": 11,
+        "total_units": 18,
+        "note": "Temsili bölge noktasıdır. Parsel veya gerçek satış konumu değildir."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "koru-yasam",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.726, 38.336]
+      },
+      "properties": {
+        "project_id": "koru-yasam",
+        "name": "Koru Yaşam",
+        "district": "Urla",
+        "location_mode": "regional",
+        "is_demo": true,
+        "available_units": 9,
+        "total_units": 32,
+        "note": "Temsili bölge noktasıdır. Parsel veya gerçek satış konumu değildir."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "vadi-konaklari",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.971, 38.378]
+      },
+      "properties": {
+        "project_id": "vadi-konaklari",
+        "name": "Vadi Konakları",
+        "district": "Narlıdere",
+        "location_mode": "regional",
+        "is_demo": true,
+        "available_units": 0,
+        "total_units": 10,
+        "note": "Temsili bölge noktasıdır. Parsel veya gerçek satış konumu değildir."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kent-avlu",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [27.085, 38.399]
+      },
+      "properties": {
+        "project_id": "kent-avlu",
+        "name": "Kent Avlu",
+        "district": "Balçova",
+        "location_mode": "regional",
+        "is_demo": true,
+        "available_units": 42,
+        "total_units": 96,
+        "note": "Temsili bölge noktasıdır. Parsel veya gerçek satış konumu değildir."
+      }
+    }
+  ]
+}

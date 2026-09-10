@@ -1,0 +1,68 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "study-west",
+        "name": "Urla çevresi inceleme penceresi",
+        "status": "aday",
+        "note": "Masa başı veri kapsamı incelemesi. Mülkiyet, imar veya proje alanı değildir."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [26.7, 38.3],
+            [26.79, 38.3],
+            [26.79, 38.36],
+            [26.7, 38.36],
+            [26.7, 38.3]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "study-center",
+        "name": "Güzelbahçe çevresi inceleme penceresi",
+        "status": "aday",
+        "note": "Masa başı veri kapsamı incelemesi. Mülkiyet, imar veya proje alanı değildir."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [26.83, 38.33],
+            [26.92, 38.33],
+            [26.92, 38.39],
+            [26.83, 38.39],
+            [26.83, 38.33]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "study-east",
+        "name": "Narlıdere ve Balçova inceleme penceresi",
+        "status": "aday",
+        "note": "Masa başı veri kapsamı incelemesi. Mülkiyet, imar veya proje alanı değildir."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [26.96, 38.36],
+            [27.09, 38.36],
+            [27.09, 38.42],
+            [26.96, 38.42],
+            [26.96, 38.36]
+          ]
+        ]
+      }
+    }
+  ]
+}

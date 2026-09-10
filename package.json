@@ -1,0 +1,41 @@
+{
+  "name": "luma-real-estate-experience",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "export:gis": "node scripts/export-gis.mjs",
+    "check:basemap": "node scripts/check-basemap.mjs",
+    "generate:model": "node --experimental-strip-types scripts/generate-model.mjs",
+    "demo:serve": "node scripts/demo-server.mjs dist 4173",
+    "demo:check": "node scripts/check-demo-server.mjs",
+    "package:demo": "npm run test && npm run build && node scripts/check-demo-server.mjs && node scripts/package-demo.mjs"
+  },
+  "dependencies": {
+    "@fontsource/inter": "5.3.0",
+    "jspdf": "4.2.1",
+    "lucide-react": "1.43.0",
+    "maplibre-gl": "6.9.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.186.0"
+  },
+  "devDependencies": {
+    "@types/geojson": "7946.0.16",
+    "@types/node": "22.20.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.185.4",
+    "@vitejs/plugin-react": "6.1.1",
+    "prettier": "^3.6.2",
+    "typescript": "7.0.2",
+    "vite": "8.2.2",
+    "vitest": "5.0.0"
+  }
+}

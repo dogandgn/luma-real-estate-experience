@@ -1,0 +1,143 @@
+.brand-descriptor,
+.demo-badge,
+.eyebrow,
+.featured-badge,
+.image-caption,
+.delivery-badge,
+.price-label,
+.availability,
+.sidebar-footer,
+.list-end,
+.regional-note,
+.map-legend,
+.map-mode,
+.project-total,
+.card-location,
+.card-location > span,
+.card-specs,
+.map-project-preview p,
+.map-heading > span,
+.map-heading p,
+.map-intro-card p,
+.unit-status,
+.detail-footer,
+.detail-hero > span,
+.results-toolbar select {
+  font-size: 12px;
+}
+.intro,
+.search-field input,
+.main-filters select,
+.filter-toggle,
+.type-filters button,
+.results-toolbar,
+.card-open,
+.about-button,
+.text-button,
+.primary,
+.area-search button,
+.map-project-preview > div > button,
+.detail-tabs button,
+.amenities span,
+.project-facts dl > div,
+.unit-table,
+.unit-table button,
+.unit-filters select,
+.about-dialog li,
+.mobile-switch button {
+  font-size: 14px;
+}
+.overview > div > p,
+.about-dialog p {
+  font-size: 16px;
+}
+.sidebar-top {
+  max-height: 65%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.featured-badge {
+  font-size: 10px;
+}
+.image-caption {
+  font-size: 10px;
+}
+.type-filters button {
+  min-height: 38px;
+}
+.results-toolbar select {
+  max-width: 132px;
+}
+.map-mode > span:last-child {
+  font-size: 12px;
+}
+.card-location {
+  flex-wrap: wrap;
+}
+.card-open > span {
+  line-height: 1.35;
+}
+.price-filter > span {
+  flex-wrap: wrap;
+}
+.map-legend {
+  flex-wrap: wrap;
+  max-width: calc(100% - 40px);
+  font-size: 11px;
+}
+.regional-note {
+  font-size: 10px;
+}
+@media (max-width: 1150px) {
+  .map-project-preview .eyebrow {
+    font-size: 10px;
+  }
+  .results-toolbar {
+    font-size: 12px;
+  }
+  .results-toolbar select {
+    max-width: 122px;
+  }
+  .map-intro-card p {
+    font-size: 12px;
+  }
+  .unit-table,
+  .unit-table button {
+    font-size: 13px;
+  }
+}
+@media (max-width: 767px) {
+  .sidebar-top {
+    max-height: 65%;
+  }
+  .about-dialog .small-note {
+    font-size: 13px;
+  }
+  .map-project-preview p {
+    font-size: 12px;
+  }
+  .map-mode > span {
+    font-size: 12px;
+  }
+  .demo-badge {
+    font-size: 10px;
+  }
+  .sidebar-footer {
+    font-size: 11px;
+  }
+  .unit-status {
+    font-size: 12px;
+  }
+  .detail-footer {
+    font-size: 12px;
+  }
+  .map-legend {
+    font-size: 10px;
+  }
+  .inventory-title {
+    align-items: start;
+  }
+  .unit-table {
+    font-size: 13px;
+  }
+}

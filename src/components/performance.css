@@ -1,0 +1,45 @@
+.performance-panel {
+  position: absolute;
+  top: 145px;
+  left: 20px;
+  z-index: 8;
+  background: #fffef8f5;
+  border: 1px solid #bdcecb;
+  border-radius: 6px;
+  padding: 10px 12px;
+  width: min(350px, calc(100% - 90px));
+  max-height: 60%;
+  overflow: auto;
+  font-size: 12px;
+  color: #1f4b49;
+  box-shadow: 0 4px 20px #1233;
+}
+.performance-panel summary {
+  font-size: 14px;
+  cursor: pointer;
+}
+.performance-panel p {
+  line-height: 1.5;
+  margin: 10px 0;
+}
+.performance-panel > div {
+  display: flex;
+  gap: 8px;
+}
+.performance-panel button {
+  padding: 9px;
+  border: 1px solid #c0d0cb;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #edf6f2;
+}
+.performance-panel button:disabled {
+  opacity: 0.5;
+}
+.performance-panel pre {
+  font-size: 11px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin-top: 12px;
+  user-select: text;
+}

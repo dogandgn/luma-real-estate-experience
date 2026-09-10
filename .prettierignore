@@ -1,0 +1,9 @@
+dist
+node_modules
+coverage
+releases
+tmp
+output
+public/models/*.glb
+public/fonts/*.ttf
+package-lock.json

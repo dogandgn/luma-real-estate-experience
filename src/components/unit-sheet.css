@@ -1,0 +1,448 @@
+.unit-sheet {
+  width: min(1140px, calc(100vw - 40px));
+  max-width: 100%;
+  max-height: calc(100dvh - 40px);
+  border-radius: 12px;
+  background: #fff;
+  overflow: auto;
+  box-shadow: 0 24px 100px #12233345;
+}
+.unit-sheet::backdrop {
+  background: #0b1b2cd1;
+  backdrop-filter: blur(7px);
+}
+.unit-sheet-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 25px;
+  background: #fff;
+  border-bottom: 1px solid #e1e6e8;
+}
+.unit-sheet-header .eyebrow {
+  font-size: 12px;
+}
+.unit-sheet-header h2 {
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  margin-top: 5px;
+}
+.unit-sheet-header h2 span {
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-left: 10px;
+  color: #71818b;
+}
+.unit-stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  color: #60747f;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.unit-stepper button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  min-height: 38px;
+  border: 1px solid #dfe5e8;
+  border-radius: 5px;
+}
+.unit-stepper button:disabled {
+  opacity: 0.3;
+}
+.unit-sheet-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+}
+.plan-section {
+  min-width: 0;
+  padding: 25px;
+  background: #f5f7f7;
+}
+.plan-toolbar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.plan-toolbar h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 7px;
+}
+.plan-toolbar .eyebrow {
+  font-size: 12px;
+}
+.plan-zoom {
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  background: #fff;
+  border: 1px solid #dfe5e8;
+  border-radius: 6px;
+  gap: 2px;
+}
+.plan-zoom button {
+  width: 32px;
+  min-height: 36px;
+  display: grid;
+  place-items: center;
+  color: #58717e;
+}
+.plan-zoom button:disabled {
+  opacity: 0.3;
+}
+.plan-zoom output {
+  min-width: 43px;
+  text-align: center;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.plan-viewport {
+  width: 100%;
+  max-height: 500px;
+  min-height: 260px;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #e1e6e8;
+  border-radius: 6px;
+  overscroll-behavior: contain;
+  padding: 14px;
+}
+.floorplan-svg {
+  display: block;
+  height: auto;
+  min-width: 0;
+  max-width: none;
+  margin: 0 auto;
+  overflow: visible;
+}
+.plan-room rect {
+  fill: #f6f1e9;
+  stroke: #344954;
+  stroke-width: 6;
+  stroke-linejoin: miter;
+}
+.plan-room.bedroom rect {
+  fill: #e8edef;
+}
+.plan-room.service rect {
+  fill: #deebe9;
+}
+.plan-room.hall rect {
+  fill: #faf9f4;
+}
+.plan-room.outdoor rect {
+  fill: #e8eadf;
+  stroke: #73816e;
+  stroke-width: 3;
+}
+.plan-room.active rect {
+  fill: #ebd3aa;
+  stroke: #a67536;
+}
+.plan-room text {
+  fill: #354f5b;
+  text-anchor: middle;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  pointer-events: none;
+}
+.opening-gap {
+  stroke: white;
+  stroke-width: 9;
+}
+.window-line {
+  stroke: #7bafb9;
+  stroke-width: 4;
+}
+.plan-opening path {
+  fill: none;
+  stroke: #809099;
+  stroke-width: 1.5;
+}
+.plan-opening.entry path {
+  stroke: #a4773b;
+  stroke-width: 2;
+}
+.plan-room-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 15px;
+}
+.plan-room-key button {
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid #dce3e5;
+  border-radius: 5px;
+  background: #fff;
+  color: #5a6e7a;
+  font-size: 12px;
+}
+.plan-room-key button[aria-pressed='true'] {
+  background: #eedec6;
+  border-color: #b68c54;
+  color: #624722;
+}
+.plan-disclaimer {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #6d7f88;
+  margin-top: 18px;
+}
+.plan-disclaimer strong {
+  color: #526873;
+}
+.plan-unavailable {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 18px;
+  min-height: 280px;
+  color: #6e818b;
+  text-align: center;
+  font-size: 15px;
+}
+.unit-facts {
+  padding: 27px 24px;
+  border-left: 1px solid #e1e6e8;
+  min-width: 0;
+}
+.unit-facts > .unit-status {
+  display: inline-block;
+  font-size: 12px;
+  padding: 6px 9px;
+}
+.unit-price-label {
+  font-size: 13px;
+  color: #71818a;
+  margin: 24px 0 6px;
+}
+.unit-sheet-price {
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+  line-height: 1.3;
+}
+.unit-facts dl {
+  margin: 24px 0 13px;
+}
+.unit-facts dl > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e6ebed;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.unit-facts dt {
+  color: #71818c;
+}
+.unit-facts dd {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-align: right;
+  margin: 0;
+  font-weight: 500;
+  color: #364d59;
+}
+.plan-orientation-note {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #7a898f;
+}
+.unit-locate {
+  margin-top: 20px;
+  gap: 8px;
+  justify-content: center;
+  font-size: 14px;
+}
+.unit-media {
+  border-top: 1px solid #e1e6e8;
+  margin-top: 25px;
+  padding-top: 22px;
+}
+.unit-media h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.unit-media a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #dbe4e7;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.unit-media a > span {
+  flex: 1;
+  min-width: 0;
+}
+.unit-media a small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #7a8b94;
+  overflow-wrap: anywhere;
+}
+.unit-media a:hover {
+  border-color: #a17949;
+  background: #fbf6ef;
+}
+.media-missing {
+  font-size: 13px;
+  color: #70818b;
+  line-height: 1.7;
+  margin-top: 8px;
+}
+.media-privacy {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #829097;
+  margin-top: 15px;
+}
+.unit-sheet-footer {
+  padding: 13px 24px;
+  border-top: 1px solid #e1e6e8;
+  color: #7e8d95;
+  font-size: 12px;
+  line-height: 1.6;
+  background: #fff;
+}
+.unit-detail .unit-sheet-open {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  justify-content: center;
+  margin-top: 5px;
+  padding: 8px 12px;
+  font-size: 13px;
+  min-height: 38px;
+  border: 1px solid #c5a27a;
+  border-radius: 4px;
+  color: #7a5227;
+  background: white;
+}
+.unit-detail .unit-sheet-open:hover {
+  background: #f2e6d7;
+}
+@media (max-width: 900px) {
+  .unit-sheet-grid {
+    grid-template-columns: minmax(0, 1fr) 270px;
+  }
+  .plan-section {
+    padding: 18px;
+  }
+  .unit-facts {
+    padding: 23px 18px;
+  }
+  .plan-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .unit-sheet-price {
+    font-size: 23px;
+  }
+}
+@media (max-width: 650px) {
+  .unit-sheet {
+    width: 100%;
+    max-height: 100dvh;
+    height: 100dvh;
+    margin: 0;
+    border-radius: 0;
+  }
+  .unit-sheet-header {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .unit-sheet-header h2 {
+    font-size: 23px;
+  }
+  .unit-sheet-header .eyebrow {
+    font-size: 11px;
+  }
+  .unit-stepper {
+    gap: 5px;
+    font-size: 12px;
+  }
+  .unit-stepper button {
+    width: 30px;
+    min-height: 36px;
+  }
+  .unit-sheet-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .plan-section {
+    padding: 18px 14px;
+  }
+  .plan-toolbar {
+    flex-direction: row;
+    align-items: center;
+  }
+  .plan-toolbar h3 {
+    font-size: 18px;
+  }
+  .plan-toolbar .eyebrow {
+    font-size: 11px;
+  }
+  .plan-zoom button {
+    width: 27px;
+  }
+  .plan-zoom output {
+    min-width: 36px;
+  }
+  .plan-viewport {
+    padding: 8px;
+    max-height: 410px;
+    min-height: 220px;
+  }
+  .unit-facts {
+    border-left: 0;
+    border-top: 1px solid #e0e6e8;
+    padding: 24px;
+  }
+  .unit-facts dl > div {
+    font-size: 14px;
+  }
+  .unit-media {
+    margin-top: 22px;
+  }
+  .unit-sheet-footer {
+    padding: 14px 20px;
+  }
+  .plan-room-key {
+    gap: 6px;
+  }
+  .plan-room-key button {
+    font-size: 12px;
+    min-height: 36px;
+  }
+  .unit-sheet-header > .icon-button {
+    width: 32px;
+    min-width: 32px;
+  }
+  .unit-sheet-header h2 span {
+    font-size: 15px;
+    margin-left: 6px;
+  }
+}
