@@ -5,6 +5,8 @@
 
 Gerçek İzmir altlığı, temsili proje kayıtları, sol liste ve filtreler, çift yönlü harita seçimi, proje detayı ve Luma Avlu için 48 daireye bağlı özgün 3B konsept model içeren portföy demosu.
 
+**Canlı demo:** [dogandgn.github.io/luma-real-estate-experience](https://dogandgn.github.io/luma-real-estate-experience/)
+
 ## Çalıştırma
 
 Node.js 22.12 veya üstü desteklenen LTS kullanın:
