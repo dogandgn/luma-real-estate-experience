@@ -1,0 +1,14 @@
+{
+  "projectId": "luma-avlu",
+  "model": "/models/luma-avlu-v2.glb",
+  "modelRevision": "2.1",
+  "modelSha256": "a86a0206044aab94b0ccca6a56782ce6bde033de04c38940e531d574002803a9",
+  "source": "Original Luma GLB rendered by the shared Three.js sales scene; not a photograph or AI image.",
+  "rights": "Project LICENSE applies; no third-party model or stock image used.",
+  "lighting": "day",
+  "width": 1500,
+  "height": 950,
+  "overview": "/images/model-overview.webp",
+  "facade": "/images/model-facade.webp",
+  "courtyard": "/images/model-courtyard.webp"
+}

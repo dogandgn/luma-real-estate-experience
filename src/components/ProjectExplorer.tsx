@@ -26,6 +26,7 @@ interface Props {
   onSelectPoi: (id: string | null) => void
   onClose: () => void
   onOpen: () => void
+  onPresent?: () => void
   sampleMode: boolean
   onSampleMode: () => void
 }
@@ -61,6 +62,19 @@ export function ProjectExplorer(props: Props) {
             <small>uygun birim</small>
           </span>
         </div>
+        {props.onPresent && (
+          <button
+            className="project-presentation-entry"
+            data-present-project={project.id}
+            onClick={props.onPresent}
+          >
+            <span>
+              <strong>Projeyi keşfet</strong>
+              <small>Mimari · yaşam · konum sunumu</small>
+            </span>
+            <ArrowUpRight size={20} />
+          </button>
+        )}
         <button className="primary full" onClick={props.onOpen}>
           {project.modelUrl ? <Box size={17} /> : <ArrowUpRight size={17} />}{' '}
           {project.modelUrl ? '3B daireleri keşfet' : 'Proje dosyasını aç'}

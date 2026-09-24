@@ -1,29 +1,64 @@
 import assert from 'node:assert/strict'
-import { readFile, readdir, stat } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
+import { lstat, readFile, readdir, realpath } from 'node:fs/promises'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const root = path.resolve(process.argv[2] || '')
-if (!process.argv[2]) throw new Error('Çıkarılmış paket klasörünü belirtin.')
-const manifest = JSON.parse(await readFile(path.join(root, 'MANIFEST.json'), 'utf8'))
-for (const file of manifest.files) {
-  const target = path.resolve(root, file.path),
-    relative = path.relative(root, target)
-  assert.ok(
-    relative !== '..' && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative),
-    'Manifest dış dizine erişemez.',
-  )
-  const bytes = await readFile(target)
-  assert.equal(bytes.length, file.bytes, file.path)
-  assert.equal(createHash('sha256').update(bytes).digest('hex'), file.sha256, file.path)
-  assert.ok(!/(^|\/)(node_modules|\.git|\.env[^/]*|tmp|output)(\/|$)/.test(file.path), file.path)
-  assert.ok(!/\.pdf$/i.test(file.path), 'Müşteri PDF dosyaları paketlenmemeli.')
+export async function verifyRelease(directory) {
+  const root = await realpath(directory)
+  const manifest = JSON.parse(await readFile(path.join(root, 'MANIFEST.json'), 'utf8'))
+  assert.ok(Array.isArray(manifest.files) && manifest.files.length, 'Manifest dosya listesi eksik')
+  const expected = new Map()
+  for (const entry of manifest.files) {
+    assert.equal(typeof entry.path, 'string', 'Geçersiz dosya yolu')
+    const parts = entry.path.split('/')
+    assert.ok(
+      !entry.path.includes('\\') &&
+        !entry.path.includes(':') &&
+        parts.every((part) => part && part !== '.' && part !== '..'),
+      'Güvensiz dosya yolu',
+    )
+    assert.ok(
+      !parts.some((part) => /^(\.env(?:\.|$)|node_modules$|\.git$)/i.test(part)),
+      'Paket dışında kalması gereken dosya',
+    )
+    assert.notEqual(entry.path, 'MANIFEST.json', 'Manifest kendisini kapsayamaz')
+    assert.ok(!expected.has(entry.path), 'Tekrarlı manifest kaydı')
+    expected.set(entry.path, entry)
+  }
+  let bytes = 0
+  let files = 0
+  async function visit(folder, prefix = '') {
+    for (const item of await readdir(folder)) {
+      const relative = prefix + item
+      const absolute = path.join(folder, item)
+      const info = await lstat(absolute)
+      assert.ok(!info.isSymbolicLink(), `Sembolik bağlantı kabul edilmez: ${relative}`)
+      if (info.isDirectory()) await visit(absolute, relative + '/')
+      else if (relative !== 'MANIFEST.json') {
+        assert.ok(info.isFile(), `Normal dosya değil: ${relative}`)
+        const entry = expected.get(relative)
+        assert.ok(entry, `Manifest dışında dosya: ${relative}`)
+        const content = await readFile(absolute)
+        assert.equal(content.length, entry.bytes, `Boyut uyuşmazlığı: ${relative}`)
+        assert.equal(
+          createHash('sha256').update(content).digest('hex'),
+          entry.sha256,
+          `Özet uyuşmazlığı: ${relative}`,
+        )
+        expected.delete(relative)
+        bytes += content.length
+        files++
+      }
+    }
+  }
+  await visit(root)
+  assert.equal(expected.size, 0, `Eksik dosyalar: ${[...expected.keys()].join(', ')}`)
+  return { files, bytes }
 }
-async function count(dir) {
-  let n = 0
-  for (const file of await readdir(dir))
-    n += (await stat(path.join(dir, file))).isDirectory() ? await count(path.join(dir, file)) : 1
-  return n
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if (!process.argv[2])
+    throw new Error('Kullanım: node scripts/verify-release.mjs <çıkarılmış paket klasörü>')
+  console.log(JSON.stringify(await verifyRelease(process.argv[2])))
 }
-assert.equal(await count(root), manifest.files.length + 1, 'Manifest dışında dosya var.')
-console.log(`${manifest.files.length} dosyanın boyutu/SHA-256 değeri ve paket izin listesi doğrulandı.`)

@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { verifyRelease } from './verify-release.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const stamp = new Date()
@@ -17,6 +18,9 @@ await mkdir(demo, { recursive: true })
 await mkdir(source)
 await cp(path.join(root, 'dist'), path.join(demo, 'site'), { recursive: true })
 await cp(path.join(root, 'scripts/demo-server.mjs'), path.join(demo, 'demo-server.mjs'))
+await cp(path.join(root, 'LICENSE'), path.join(demo, 'LICENSE'))
+await cp(path.join(root, 'ASSETS.md'), path.join(demo, 'ASSETS.md'))
+await cp(path.join(root, 'IMAGE-PROMPTS.md'), path.join(demo, 'IMAGE-PROMPTS.md'))
 // Explicit allowlist: never include private PDFs, temp files, .env, dependencies or report sources.
 for (const name of [
   'src',
@@ -25,8 +29,13 @@ for (const name of [
   'gis',
   'package.json',
   'package-lock.json',
+  '.gitignore',
+  '.gitattributes',
+  '.prettierignore',
+  '.prettierrc.json',
   'tsconfig.json',
   'vite.config.ts',
+  'vitest.config.ts',
   'index.html',
   'README.md',
   'LICENSE',
@@ -38,11 +47,15 @@ for (const name of [
   'PDF-EXPORT.md',
   'DEMO-GUIDE.md',
   'PERFORMANCE.md',
+  'PRESENTATION-ROADMAP.md',
+  'IMAGE-PROMPTS.md',
+  'RELEASE-CHECKLIST.md',
 ]) {
   await cp(path.join(root, name), path.join(source, name), { recursive: true })
 }
 const guide = await readFile(path.join(root, 'DEMO-GUIDE.md'), 'utf8')
 await writeFile(path.join(demo, 'ONCE-OKU.md'), guide)
+await cp(path.join(root, 'RELEASE-CHECKLIST.md'), path.join(demo, 'RELEASE-CHECKLIST.md'))
 await cp(path.join(root, 'PERFORMANCE.md'), path.join(demo, 'PERFORMANCE.md'))
 await writeFile(
   path.join(demo, 'BASLAT.cmd'),
@@ -112,6 +125,7 @@ for (const folder of [demo, source]) {
     ),
   )
   const archive = folder + '.zip'
+  await verifyRelease(folder)
   if (process.platform !== 'win32')
     throw new Error('Bu paketleme komutu Windows PowerShell/.NET ZIP kullanır.')
   execFileSync(

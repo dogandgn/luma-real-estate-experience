@@ -27,29 +27,30 @@ globalThis.FileReader = class {
 }
 
 const root = new Group()
-root.name = 'Luma_Avlu_Concept_v2'
+root.name = 'Luma_Avlu_Concept_v2_1'
 root.userData = {
   projectId: 'luma-avlu',
   units: 'metres',
   north: '-Z',
   purpose: 'concept-not-survey',
   version: 2,
+  revision: '2.1',
 }
 const material = (name, color, roughness = 0.8, metalness = 0) => {
   const m = new MeshStandardMaterial({ color, roughness, metalness })
   m.name = name
   return m
 }
-const limestone = material('Limestone', '#d6d0bd')
-const plaster = material('Ivory_plaster', '#f1e9d9')
+const limestone = material('Limestone', '#c9baa0')
+const plaster = material('Ivory_plaster', '#e4dac7')
 const bronze = material('Bronze_frames', '#615447', 0.4, 0.65)
-const wood = material('Thermowood', '#896346')
-const glazing = material('Glazing', '#66828a', 0.12, 0.4)
+const wood = material('Thermowood', '#795638')
+const glazing = material('Glazing', '#4d666b', 0.18, 0.28)
 const railing = material('Balcony_glass', '#b2cbcc', 0.22, 0.25)
 railing.transparent = true
 railing.opacity = 0.48
 const lawn = material('Planting', '#637559')
-const foliage = [material('Olive_green', '#56644b'), material('Olive_light', '#7b8962')]
+const foliage = [material('Olive_green', '#4d614a'), material('Olive_light', '#73805b')]
 const paving = material('Paving', '#c8c5b6')
 const water = material('Pool_water', '#448c96', 0.12, 0.35)
 const undercroft = material('Soffit', '#a99b85')
@@ -61,7 +62,7 @@ const selection = material('Selection_volume', '#dbad69')
 selection.transparent = true
 selection.opacity = 0
 const cube = new BoxGeometry(1, 1, 1)
-const crown = new IcosahedronGeometry(1, 0)
+const crown = new IcosahedronGeometry(1, 1)
 const trunk = new CylinderGeometry(0.13, 0.24, 2.6, 6)
 function box(parent, name, size, position, mat) {
   const mesh = new Mesh(cube, mat)
@@ -101,20 +102,35 @@ for (let i = 0; i < 20; i++) {
   const t = new Mesh(trunk, wood)
   t.position.set(x, 1.5, z)
   root.add(t)
-  for (let j = 0; j < 7; j++) {
+  for (let j = 0; j < 5; j++) {
     const angle = j * 2.4 + i * 0.7
     const bx = x + Math.cos(angle) * 1.35,
       bz = z + Math.sin(angle) * 1.35
     const by = 3.1 + (j % 3) * 0.48
     branch(root, [x, 2, z], [bx, by, bz], 0.1)
-    for (let k = 0; k < 3; k++) {
+    for (let k = 0; k < 2; k++) {
       const c = new Mesh(crown, foliage[(i + j + k) % 2])
       c.position.set(bx + Math.sin(k * 2.1 + j) * 0.5, by + k * 0.28, bz + Math.cos(k * 2.1 + j) * 0.5)
-      c.scale.set(0.85, 0.58, 0.8)
+      c.scale.set(1.05, 0.78, 1)
       c.rotation.set(j * 0.4, k * 1.3, i * 0.2)
       root.add(c)
     }
   }
+}
+for (const x of [-31, 31]) {
+  for (let z = -20; z <= 20; z += 5) {
+    const shrub = new Mesh(crown, foliage[z % 2 === 0 ? 0 : 1])
+    shrub.name = 'Garden_underplanting'
+    shrub.position.set(x, 0.68, z)
+    shrub.scale.set(1.2, 0.48, 1.1)
+    root.add(shrub)
+  }
+}
+for (const x of [-15, 15]) {
+  box(root, 'Arrival_bench', [5.5, 0.4, 1.2], [x, 0.46, 23], limestone)
+  box(root, 'Arrival_bench_seat', [5.3, 0.09, 1.1], [x, 0.7, 23], wood)
+  box(root, 'Arrival_planter', [5.5, 0.65, 1.25], [x, 0.56, 25], limestone)
+  box(root, 'Arrival_planting', [5.2, 0.3, 1], [x, 1, 25], lawn)
 }
 for (const x of [-30, 30])
   for (let z = -18; z < 23; z += 6) {
@@ -163,6 +179,7 @@ for (const block of ['A', 'B']) {
       const width = frontBack ? 20 : 6
       const depth = frontBack ? 8.9 : 9.9
       box(facade, 'Glazed_front', [width, 2.65, 0.12], [0, 1.7, depth], glazing)
+      box(facade, 'Window_transom', [width, 0.055, 0.14], [0, 2.45, depth + 0.1], bronze)
       box(facade, 'Balcony_rail', [width + 0.6, 0.85, 0.07], [0, 0.75, depth + 1.5], railing)
       box(facade, 'Handrail', [width + 0.7, 0.06, 0.09], [0, 1.19, depth + 1.5], bronze)
       box(facade, 'Warm_light_strip', [width - 0.6, 0.035, 0.08], [0, 2.94, depth + 0.5], light)
@@ -203,6 +220,10 @@ for (const block of ['A', 'B']) {
   for (const z of [-10.3, 10.3]) box(roof, 'Parapet', [23, 0.65, 0.2], [bx, y + 0.38, z], limestone)
   for (const x of [-11.3, 11.3]) box(roof, 'Parapet', [0.2, 0.65, 20.5], [bx + x, y + 0.38, 0], limestone)
   box(roof, 'Roof_garden', [15, 0.16, 12], [bx, y + 0.22, 0], lawn)
+  for (const z of [-5.2, 5.2]) {
+    box(roof, 'Roof_planter', [13, 0.5, 0.85], [bx, y + 0.43, z], limestone)
+    box(roof, 'Roof_planting', [12.7, 0.3, 0.65], [bx, y + 0.82, z], foliage[0])
+  }
   for (let n = 0; n < 8; n++) box(roof, 'Roof_pergola', [0.2, 0.28, 8], [bx - 3.5 + n, y + 2.4, 0], wood)
   for (const x of [-3.5, 3.5])
     for (const z of [-3.5, 3.5])

@@ -12,11 +12,13 @@
 ## Sunum akışı
 
 1. Sol listeden bölge/proje filtrelerini gösterin; harita işareti ve kartın aynı projeyi seçtiğini anlatın.
-2. Luma Avlu → İncele: sağdaki proje/çevre paneli. Gerçek donatı henüz bağlı değildir.
-3. İsteğe bağlı “Örnek akışı dene”: temsili donatı kategorileri, mesafeleri ve liste–harita seçimi. Bunları gerçek metro/durak konumu olarak anlatmayın.
-4. “3B daireleri keşfet”: blok/kat/oda/durum filtresi, kat kesiti, kamera açıları ve daire seçimi.
-5. Seçili dairenin sağ panelinde özellikler, plan dosyası ve PDF. PDF'ye girdiğiniz kişisel bilgiler indirilen dosyanın içinde bulunur; bunu paylaşmadan önce kontrol edin.
-6. Haritaya dönün. Diğer yedi portföy kaydının 3B modeli olmadığını ve tüm kayıtların temsili olduğunu belirtin.
+2. Luma Avlu'yu seçin: sağdaki proje/çevre paneli. Gerçek donatı henüz bağlı değildir.
+3. “Projeyi keşfet”: beş bölümlü tanıtım sunumu. Yaşam bölümünde masaüstünde aşağı kaydırma görselleri yana ilerletir; küçük ekranda yana kaydırılır. Ok/klavye ve “Sade görünüm” alternatifleri vardır. AI konseptler gerçek mülk veya birebir model renderı değildir.
+4. Mimari bölümündeki “Mimari modeli aç” isteğe bağlıdır. Üç kamera, gündüz/akşam ve PNG indirme vardır; burada görülen gerçek seçim modelidir. “Haritada konumu incele” mevcut haritaya döner.
+5. İsteğe bağlı “Örnek akışı dene”: temsili donatı kategorileri, mesafeleri ve liste–harita seçimi. Bunları gerçek metro/durak konumu olarak anlatmayın.
+6. “3B daireleri keşfet” veya sunumda “Daire seç”: blok/kat/oda/durum filtresi, kat kesiti, kamera açıları ve daire seçimi. Sunumdan geldiyseniz “Sunuma dön” önceki konumu korur.
+7. Seçili dairenin sağ panelinde özellikler, plan dosyası ve PDF. PDF'ye girdiğiniz kişisel bilgiler indirilen dosyanın içinde bulunur; bunu paylaşmadan önce kontrol edin.
+8. Haritaya dönün. Diğer yedi portföy kaydının 3B modeli olmadığını ve tüm kayıtların temsili olduğunu belirtin.
 
 ## Başka cihazda aynı ölçümü tekrar etme
 
@@ -26,11 +28,11 @@ Gerçek telefon ölçümü için ayrıca onaylanmış HTTPS test yayını veya k
 
 ## Paket sınırları
 
-- Demo ZIP: `site/` üretim çıktısı, yerel sunucu, başlatıcı, kılavuz, performans raporu, üçüncü taraf bildirimleri ve SHA-256 manifesti.
+- Demo ZIP: `site/` üretim çıktısı, yerel sunucu, başlatıcı, kılavuz, proje lisansı, varlık açıklamaları, kabul listesi, performans raporu, üçüncü taraf bildirimleri ve SHA-256 manifesti.
 - Ayrı kaynak ZIP: kaynak kodu, kilitli bağımlılıklar, özgün model üreticisi, varlıklar ve teknik kılavuzlar. Geliştirici kullanımı içindir; müşteri sunumu için paylaşılması gerekmez.
 - ZIP'lerde müşteri PDF'leri, geçici ölçüm dosyaları, `.env`, `node_modules`, sohbet/araştırma belgeleri veya erişim anahtarları bulunmaz. Kaynak paketi açık bir dosya/klasör izin listesiyle hazırlanır.
 - Projeler, konum işaretleri, fiyatlar ve planlar temsilidir. Gerçek imar durumu/parsel, malik bilgisi, onaylı plan, CRM, rezervasyon, e-imza veya müşteri yönetimi yoktur.
-- Harita ve font lisans/atıfları korunmalıdır. Statik web kodu ve GLB dosyaları ziyaretçinin cihazına iner; bu yöntem kopyalanmaya karşı lisans koruması sağlamaz.
+- Harita ve font lisans/atıfları korunmalıdır. Statik web kodu ve GLB dosyaları ziyaretçinin cihazına iner; bu yöntem teknik kopyalama engeli değildir. Kullanım koşulları `LICENSE` içindedir.
 - Bu paket müşteriye özgü ticari ürün veya çevrimiçi yayın değildir.
 
 ## Kaynaktan yeniden üretme
@@ -38,5 +40,7 @@ Gerçek telefon ölçümü için ayrıca onaylanmış HTTPS test yayını veya k
 Kaynak paketinde `npm ci`, ardından `npm run package:demo` çalıştırın. Test, üretim derlemesi ve sunucu denetimi geçince `releases/` altında yeni zaman damgalı iki ZIP ve açık klasörleri oluşur; eski paketler silinmez. ZIP oluşturma komutu Windows PowerShell/.NET ZIP kullanır. `MANIFEST.json` dosyaları her içerik için boyut ve SHA-256 taşır; kendisini kapsamaz.
 
 ## Bir sonraki karar kapısı
+
+Paylaşım öncesi elle kontrol edilecek akışlar ve fiziksel telefon/yavaş ağ açıkları `RELEASE-CHECKLIST.md` içindedir. İki ZIP'in bulunması, bu kabul maddelerinin tamamlandığı anlamına gelmez.
 
 Gerçek donatı, imar planı ve müşteri paketlemeye başlamadan önce demo akışı, görsel kalite, performans sonuçları ve veri sorumluluklarını kullanıcıyla birlikte yeniden değerlendirin. Bu aşama bunların entegrasyonuna yetki vermez.

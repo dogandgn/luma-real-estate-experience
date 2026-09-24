@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState, type RefObject } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import { ArrowLeft, ArrowUpRight, Box, Building2, Check, Compass, FileText, Info, X } from 'lucide-react'
 import { config } from '../config'
 import { currency, units } from '../domain/portfolio'
@@ -24,6 +24,8 @@ export function ProjectDetail({
   nearbyMode,
   radius,
   category,
+  backLabel = 'Haritaya dön',
+  onPresent,
 }: {
   project: Project
   onClose: () => void
@@ -32,6 +34,8 @@ export function ProjectDetail({
   nearbyMode: 'sample' | 'unconnected'
   radius: number
   category: Category | 'all'
+  backLabel?: string
+  onPresent?: () => void
 }) {
   const dialog = useRef<HTMLDialogElement>(null)
   const [tab, setTab] = useState<'overview' | 'units' | 'model'>(project.modelUrl ? 'model' : 'overview')
@@ -44,10 +48,15 @@ export function ProjectDetail({
   const [reportOpen, setReportOpen] = useState(false)
   const captureModel = useRef<CaptureView | null>(null)
   const [focusRequest, setFocusRequest] = useState(0)
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = dialog.current
+    const previousFocus = document.activeElement
     element?.showModal()
-    return () => element?.close()
+    return () => {
+      element?.close()
+      if (previousFocus instanceof HTMLElement && previousFocus.isConnected)
+        previousFocus.focus({ preventScroll: true })
+    }
   }, [])
   const unitList = useRef<HTMLDivElement>(null)
   const inventory = useMemo(() => units.filter((u) => u.projectId === project.id), [project.id])
@@ -180,8 +189,13 @@ export function ProjectDetail({
       <div className="detail-content">
         <header className="detail-header">
           <button className="text-button" onClick={onClose}>
-            <ArrowLeft size={18} /> Haritaya dön
+            <ArrowLeft size={18} /> {backLabel}
           </button>
+          {onPresent && (
+            <button className="text-button" onClick={onPresent}>
+              Proje sunumu <ArrowUpRight size={16} />
+            </button>
+          )}
           <span className="eyebrow">PROJE DOSYASI</span>
           <button className="icon-button" aria-label="Proje detayını kapat" onClick={onClose}>
             <X size={22} />

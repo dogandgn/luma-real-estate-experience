@@ -9,6 +9,7 @@ import type { ViewSnapshot } from '../domain/report'
 import type { Unit } from '../domain/types'
 import { unitVolume, type UnitFilters } from '../domain/model-layout'
 import { publicAsset } from '../utils/public-asset'
+import { presentationCamera } from './presentation-camera'
 
 export interface SceneState {
   selected: Unit | null
@@ -44,7 +45,10 @@ export function createSalesScene(
   onHover: (id: string | null) => void,
   onLost: () => void,
   onMaterialWarning: () => void,
+  options: { interactive?: boolean; label?: string; transitionMs?: number } = {},
 ) {
+  const interactive = options.interactive !== false
+  let currentView: CameraView = 'overview'
   const sceneStarted = performance.now()
   let firstFrame = true
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' })
@@ -57,7 +61,7 @@ export function createSalesScene(
   renderer.toneMappingExposure = 0.83
   renderer.domElement.setAttribute(
     'aria-label',
-    'Luma Avlu etkileşimli 3B modeli. Daireleri soldaki listeden de seçebilirsiniz.',
+    options.label ?? 'Luma Avlu etkileşimli 3B modeli. Daireleri soldaki listeden de seçebilirsiniz.',
   )
   renderer.domElement.style.touchAction = 'none'
   host.appendChild(renderer.domElement)
@@ -67,11 +71,13 @@ export function createSalesScene(
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 400)
   camera.layers.enable(1)
   const controls = new OrbitControls(camera, renderer.domElement)
+  controls.enabled = interactive
+  if (!interactive) renderer.domElement.style.touchAction = 'pan-y'
   controls.enableDamping = true
   controls.dampingFactor = 0.07
   controls.zoomSpeed = 0.65
   controls.minDistance = 22
-  controls.maxDistance = 155
+  controls.maxDistance = interactive ? 155 : 220
   controls.maxPolarAngle = Math.PI * 0.475
   controls.minPolarAngle = 0.08
   controls.autoRotateSpeed = 0.55
@@ -81,7 +87,7 @@ export function createSalesScene(
   sun.castShadow = true
   sun.shadow.mapSize.set(2048, 2048)
   Object.assign(sun.shadow.camera, { left: -55, right: 55, top: 55, bottom: -55, near: 0.5, far: 170 })
-  sun.shadow.normalBias = 0.08
+  sun.shadow.normalBias = 0.045
   scene.add(sun)
   const fill = new THREE.HemisphereLight('#c7e1f1', '#9a8874', 1.1)
   scene.add(fill)
@@ -180,6 +186,12 @@ export function createSalesScene(
     move(new THREE.Vector3(64 * factor, 49 * factor, 78 * factor), defaultTarget.clone())
   }
   function view(name: CameraView) {
+    currentView = name
+    if (!interactive) {
+      const pose = presentationCamera(name, camera.aspect)
+      move(new THREE.Vector3(...pose.position), new THREE.Vector3(...pose.target))
+      return
+    }
     controls.minDistance = 22
     if (name === 'overview') {
       overview()
@@ -203,6 +215,7 @@ export function createSalesScene(
     presentation.resize(width, height)
     camera.aspect = width / height
     camera.updateProjectionMatrix()
+    if (!interactive) view(currentView)
     needsRender = true
   })
   resize.observe(host)
@@ -337,6 +350,7 @@ export function createSalesScene(
   }
   let down: { x: number; y: number; id: number } | null = null
   const pointerDown = (e: PointerEvent) => {
+    if (!interactive) return
     if (e.isPrimary && e.button === 0) down = { x: e.clientX, y: e.clientY, id: e.pointerId }
   }
   const pointerUp = (e: PointerEvent) => {
@@ -347,6 +361,7 @@ export function createSalesScene(
     down = null
   }
   const pointerMove = (e: PointerEvent) => {
+    if (!interactive) return
     if (e.buttons) return
     if (e.timeStamp - lastHover < 32) return
     lastHover = e.timeStamp
@@ -381,10 +396,10 @@ export function createSalesScene(
     duskBackground = new THREE.Color('#344555')
   const daySun = new THREE.Color('#fff3dc'),
     duskSun = new THREE.Color('#ffd09b')
-  function updateLight(delta: number) {
+  function updateLight(delta: number, snap = false) {
     const target = state?.evening ? 1 : 0
     const changed = Math.abs(target - lightMix) > 0.001
-    lightMix = reducedMotion || !changed ? target : THREE.MathUtils.damp(lightMix, target, 4, delta)
+    lightMix = snap || reducedMotion || !changed ? target : THREE.MathUtils.damp(lightMix, target, 4, delta)
     if (changed) {
       renderer.shadowMap.needsUpdate = true
       ;(scene.background as THREE.Color).copy(dayBackground).lerp(duskBackground, lightMix)
@@ -406,7 +421,7 @@ export function createSalesScene(
     previous = now
     const wasAnimating = !!animation
     if (animation) {
-      const t = Math.min((now - animation.start) / 900, 1)
+      const t = Math.min((now - animation.start) / Math.max(1, options.transitionMs ?? 900), 1)
       const ease = t * t * (3 - 2 * t)
       camera.position.lerpVectors(animation.from, animation.to, ease)
       controls.target.lerpVectors(animation.targetFrom, animation.targetTo, ease)
@@ -496,7 +511,9 @@ export function createSalesScene(
           texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy())
           stoneMaterials.forEach((m) => {
             m.map = texture
-            m.color.set('#f6f2e9')
+            m.color.set('#d9ccb4')
+            m.bumpMap = texture
+            m.bumpScale = 0.035
             m.needsUpdate = true
           })
           needsRender = true
@@ -602,8 +619,9 @@ export function createSalesScene(
         probe = { start, frames, cancel: finish }
       })
     },
-    async capture(): Promise<ViewSnapshot> {
-      if (disposed || !model || !state?.selected) throw new Error('Önce modelden bir daire seçin.')
+    async capture(mode: 'unit' | 'presentation' = 'unit'): Promise<ViewSnapshot> {
+      if (disposed || !model || !state || (mode === 'unit' && !state.selected))
+        throw new Error('Önce modelden bir daire seçin.')
       // Complete an in-flight selection transition before recording the selected apartment.
       if (animation) {
         camera.position.copy(animation.to)
@@ -611,6 +629,8 @@ export function createSalesScene(
         animation = null
       }
       const size = renderer.getSize(new THREE.Vector2())
+      const position = camera.position.clone(),
+        target = controls.target.clone()
       const ratio = renderer.getPixelRatio(),
         aspect = camera.aspect,
         rotating = controls.autoRotate
@@ -621,7 +641,14 @@ export function createSalesScene(
         renderer.setSize(1500, 950, false)
         presentation.resize(1500, 950)
         camera.aspect = 1500 / 950
+        if (mode === 'presentation') {
+          const pose = presentationCamera(currentView, camera.aspect)
+          camera.position.set(...pose.position)
+          controls.target.set(...pose.target)
+          controls.update()
+        }
         camera.updateProjectionMatrix()
+        updateLight(0, true)
         presentation.render(0)
         // Read in the same task as the render; no permanently preserved WebGL buffer.
         return {
@@ -635,6 +662,11 @@ export function createSalesScene(
         renderer.setSize(size.x, size.y, false)
         presentation.resize(size.x, size.y)
         camera.aspect = aspect
+        if (mode === 'presentation') {
+          camera.position.copy(position)
+          controls.target.copy(target)
+          controls.update()
+        }
         camera.updateProjectionMatrix()
         controls.autoRotate = rotating
         needsRender = true
@@ -643,7 +675,7 @@ export function createSalesScene(
     setActive(value: boolean) {
       if (!value) probe?.cancel('Sahne duraklatıldı; ölçüm iptal edildi.')
       active = value
-      controls.enabled = value
+      controls.enabled = value && interactive
       needsRender = true
     },
     top() {

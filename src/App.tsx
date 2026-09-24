@@ -26,6 +26,8 @@ import {
 import type { Bounds, Filters, Project } from './domain/types'
 import { ProjectDetail } from './components/ProjectDetail'
 import { ProjectExplorer } from './components/ProjectExplorer'
+import { ProjectPresentation } from './components/ProjectPresentation'
+import { getProjectPresentation } from './domain/project-presentation'
 import { findNearby, visibleNearby, sampleNearby, type Category } from './domain/nearby'
 import type { CaptureView } from './domain/report'
 import './components/explorer.css'
@@ -38,6 +40,7 @@ export function App() {
   const [filters, setFilters] = useState<Filters>(defaultFilters)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [detailId, setDetailId] = useState<string | null>(null)
+  const [presentationId, setPresentationId] = useState<string | null>(null)
   const [category, setCategory] = useState<Category | 'all'>('all')
   const [radius, setRadius] = useState(3)
   const [poiId, setPoiId] = useState<string | null>(null)
@@ -76,6 +79,8 @@ export function App() {
     setMobileTab('map')
   }
   const detail = projects.find((p) => p.id === detailId)
+  const presentationProject = projects.find((p) => p.id === presentationId)
+  const presentationContent = presentationId ? getProjectPresentation(presentationId) : undefined
   const activeCount =
     Number(!!filters.district) +
     Number(!!filters.type) +
@@ -118,7 +123,7 @@ export function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <a className="brand" href="/" aria-label="Luma ana sayfa">
+        <a className="brand" href={import.meta.env.BASE_URL} aria-label="Luma ana sayfa">
           <span className="brand-mark">
             <span />
             <span />
@@ -338,6 +343,9 @@ export function App() {
               onSelectPoi={setPoiId}
               onClose={() => setSelectedId(null)}
               onOpen={() => setDetailId(selected.id)}
+              onPresent={
+                getProjectPresentation(selected.id) ? () => setPresentationId(selected.id) : undefined
+              }
             />
           )}
         </div>
@@ -358,6 +366,19 @@ export function App() {
           <MapPin size={17} /> Harita
         </button>
       </div>
+      {presentationProject && presentationContent && (
+        <ProjectPresentation
+          active={!detail}
+          project={presentationProject}
+          content={presentationContent}
+          onClose={() => setPresentationId(null)}
+          onSelectUnit={() => setDetailId(presentationProject.id)}
+          onLocation={() => {
+            setPresentationId(null)
+            setMobileTab('map')
+          }}
+        />
+      )}
       {detail && (
         <ProjectDetail
           key={detail.id}
@@ -368,6 +389,15 @@ export function App() {
           radius={radius}
           category={category}
           onClose={() => setDetailId(null)}
+          backLabel={presentationId ? 'Sunuma dön' : 'Haritaya dön'}
+          onPresent={
+            !presentationId && getProjectPresentation(detail.id)
+              ? () => {
+                  setDetailId(null)
+                  setPresentationId(detail.id)
+                }
+              : undefined
+          }
         />
       )}
       <dialog

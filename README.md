@@ -7,6 +7,8 @@ Gerçek İzmir altlığı, temsili proje kayıtları, sol liste ve filtreler, ç
 
 **Canlı demo:** [dogandgn.github.io/luma-real-estate-experience](https://dogandgn.github.io/luma-real-estate-experience/)
 
+24 Eylül 2026 yerel revizyonu: Luma Avlu'ya ayrı tanıtım sunumu, model referanslı gerçekçi AI görselleri, yatay yaşam hikâyesi, sade görünüm, mobil görsel seçenekleri ve isteğe bağlı canlı model/PNG çıktısı eklendi. Bu revizyonun canlı adrese gönderildiği varsayılmamalı; güncel durum `PROGRESS.md` içindedir. AI görseller gerçek mülk fotoğrafı veya birebir GLB renderı değildir.
+
 ## Çalıştırma
 
 Node.js 22.12 veya üstü desteklenen LTS kullanın:
@@ -33,6 +35,8 @@ npm run generate:model
 `npm run demo:serve` üretim çıktısını yalnızca 127.0.0.1:4173 üzerinde açar. `?diagnostics=1` parametresi 3B görünüm içinde tekrar kullanılabilir ölçüm panelini açar. Müşteri PDF'leri, geçici çıktılar ve bağımlılık klasörleri paketlere dahil edilmez. Gerçek donatı/imar/müşteri entegrasyonu kullanıcıyla ortak planlama yapılana kadar bekler.
 
 ## Kaynak yapısı
+
+Paket kontrolü: `node scripts/verify-release.mjs <çıkarılmış-paket-klasörü>`. Paylaşım ve gerçek cihaz kabul listesi `RELEASE-CHECKLIST.md` içindedir. Demo ve kaynak ZIP'leri proje lisansını içerir; kaynak ZIP'i ayrıca sunum belgelerini ve biçim ayarlarını taşır.
 
 - `PROJE-RAPORU.md`: ürün amacı, müşteri değeri, teknik mimari, 2B/3B çözüm ve sonraki aşamalar.
 - `src/config.ts`: marka, altlık ve görsel adresleri.
@@ -81,7 +85,7 @@ Modelin geometrisi ve temel malzemeleri yerel GLB dosyasındadır. Taş renk dok
 
 ### Görsel geliştirme — üçüncü aşama
 
-V2 modeli, cephe bitkilendirmesi, taş paneller, perde detayları, balkon altı gölge çizgileri, ışık şeritleri, ahşap havuz çevresi ve dallı ağaç kümeleri ekler. GLB yaklaşık 2,5 MiB, 1024 px renk dokusu yaklaşık 294 KiB'dir. Doku bir albedo çalışmasıdır; ölçülmüş bir PBR taraması veya doğrulanmış kusursuz dikişsiz yüzey olduğu iddia edilmez. GLB'yi başka yazılıma taşıyanlar taş dokusunu ayrıca bağlamalıdır.
+V2 modeli, cephe bitkilendirmesi, taş paneller, perde detayları, balkon altı gölge çizgileri, ışık şeritleri, ahşap havuz çevresi ve dallı ağaç kümeleri ekler. Güncel 2.1 revizyonunda GLB yaklaşık 3,33 MiB, 1024 px renk dokusu yaklaşık 294 KiB'dir. Doku bir albedo çalışmasıdır; ölçülmüş bir PBR taraması veya doğrulanmış kusursuz dikişsiz yüzey olduğu iddia edilmez. GLB'yi başka yazılıma taşıyanlar taş dokusunu ayrıca bağlamalıdır.
 
 - Varsayılan **Dengeli** görünüm: yansıma ortamı, gölgeler ve renk yönetimi; sabit sahne yeniden çizilmez.
 - **Detaylı gölgeler**: istem üzerine oluşturulan GTAO + renk çıkışı; kapatılınca ek render hedefleri bırakılır. Daha güçlü GPU gerektirebilir; FPS/cihaz performansı henüz ölçülmedi.
@@ -89,7 +93,7 @@ V2 modeli, cephe bitkilendirmesi, taş paneller, perde detayları, balkon altı 
 - Akşam geçişinde güneş rengi/yüksekliği ve mimari ışık malzemelerinin parlaklığı yumuşak değişir. Azaltılmış hareket tercihi korunur.
 - Şeffaf yüzeyler ve seçim hacimleri AO derinlik hesabından ayrıdır; görünmez seçim hacimleri ışın testiyle seçilebilir kalır.
 
-Kullanıcı ilk görsel incelemeyi kendisi yapmak istediğinden bu aşamada tarayıcı açma, tıklama veya ekran görüntüsü testi yapılmadı. Derleme ve otomatik GLB/ışın seçimi kontrolleri görsel kalite doğrulamasının yerine geçmez.
+İlk görsel sürümde kullanıcı incelemesi beklendi; sonraki revizyonların tarayıcı kontrolleri `PROGRESS.md` içinde tarihli olarak kaydedildi. Derleme ve otomatik GLB/ışın seçimi kontrolleri görsel kalite doğrulamasının yerine geçmez.
 
 ## Kapsam ve sonraki işler
 
